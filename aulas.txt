@@ -1,0 +1,18 @@
+#F04
+
+COMANDO
+python -c 
+Ex: python -c "print('bruno'.upper())"
+
+MÓDULO
+python -m
+Ex: python -m site
+Retorna informações sobre as instalação do Py
+python -m turtledemo
+
+help(1)
+help()
+
+exit() ou ctrl+d
+
+
