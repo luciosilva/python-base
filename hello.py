@@ -49,3 +49,21 @@ print("Lúcio".upper())
 
 #POSSO EXECUTAR ASSIM, passando a variável de ambiente
 #LANG=it_IT python3 hello.py
+
+#Usando ambientes virtuais
+#É possivel criar uma cópia do:
+
+#which python
+#Mostra onde o python está instalado
+
+#python3 -m site
+#Mostra onde estão localizados os arquivos, pacotes e o interpretador python
+
+#Exclusiva para uma aplicação
+
+#Como criar um ambiente virtual?
+#python3 -m venv .venv
+
+#Como ativar um ambiente virtual?
+#source .venv/bin/activate
+
