@@ -17,10 +17,10 @@ Execução:
     ou
     ./hello.py
 """
-__version__ = "0.0.1"
+__version__ = "0.1.2"
 __author__ = "LúcioFdaSilva"
 __license__ = "Unlicense"
-# Dunder
+# Dunder, nos objetos chamam de protocolos
 
 import os
 
@@ -32,19 +32,16 @@ import os
 
 
 current_language = os.getenv("LANG", "en_US")[:5]
+#LANG=pt_BR ipython hello.py 
+msg = {
+    "en_US": "Hello, World!", 
+    "pt_BR": "Olá, mundo!",
+    "it_IT": "Ciao, mondo!",
+    "es_SP": "Hola, mundo!",
+    "fr_FR": "Bonjour monde!"
+    }
 
-msg = "Hello, World!"
-
-if current_language == 'pt_BR':
-    msg = "Olá, mundo!"
-elif current_language == "it_IT":
-    msg = "Ciao, Mondo!"
-elif current_language == "es_SP":
-    msg = "Hola, Mundo!"
-elif current_language == "fr_FR":
-    msg = "Bonjour Monde!"
-
-print(msg)
+print(msg[current_language])
 print("Lúcio".upper())
 
 #POSSO EXECUTAR ASSIM, passando a variável de ambiente
@@ -53,11 +50,11 @@ print("Lúcio".upper())
 #Usando ambientes virtuais
 #É possivel criar uma cópia do:
 
-#which python
 #Mostra onde o python está instalado
+#which python
 
-#python3 -m site
 #Mostra onde estão localizados os arquivos, pacotes e o interpretador python
+#python3 -m site
 
 #Exclusiva para uma aplicação
 
@@ -66,4 +63,35 @@ print("Lúcio".upper())
 
 #Como ativar um ambiente virtual?
 #source .venv/bin/activate
+
+#python -m pip --help
+#python -m pip install ipython
+#python -m pip install --upgrade pip
+#Novo interpretador, colorido, auto complete e help melhorado
+#ipython
+
+#Help - mostra todos os módulos
+#import os
+#Help - mostra o help do getenv
+#os.getenv?
+#Help - mostra o código do getenv
+#os.getenv??
+
+#Mostra o tempo para execução do print
+#%time print("a")
+
+#TIPOS
+#Retorna os binários
+#bin()
+#Endereço de memória
+#id()
+#Scalar types - Tipos primários
+
+#Ver caracteristicas das classes
+#dir(int)
+
+#Para dinheiro não usar float, usar decimal ou currency
+
+
+
 
