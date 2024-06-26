@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-nome.upper()
-nome.lower()
+#nome.upper()
+#nome.lower()
 "bruno rocha".capitalize()
 "bruno rocha".title()
 "bruno rocha".split()
@@ -33,40 +33,45 @@ list(reversed("bruno rocha"))
 
 
 
+__version__ = "0.1.1"
 
+import sys
+import os
 
+arguments = sys.argv[1:]
+if not arguments:
+    print("informe o nome do arquivo de e-mails")
+    sys.exit(1)
+    
+filename = arguments[0] # emails.txt
+templatename = arguments[1] # email_tmpl.txt
 
+path = os.curdir
+filepath = os.path.join(path, filename)
+templatepath = os.path.join(path, templatename)
 
-email_tmpl = """
-Olá, %(nome)s
+clientes = []
+for line in open(filepath):
+    # TODO: Substituir por list comprehension
+    name, email = line.split(",")
 
-Tem interesse em comprar %(produto)s?
+#clientes = ["Maria", "Joao", "Bruno"]
 
-Este produto é ótimo para resolver
-%(texto)s
-
-Clique agora em %(link)s
-
-Apenas %(quantidade)d disponiveis!
-
-Preço promocional %(preco).2f
-
-"""
-
-clientes = ["Maria", "Joao", "Bruno"]
-
-for cliente in clientes:
+#for name, email in clientes:
+    # TODO: Substituir por envio de email
+    print(f"Enviando email para: {email}")
+    print()
     print(
-        email_tmpl % {
-            "nome": cliente, 
+        open(templatepath).read() % {
+            "nome": name, 
             "produto": "caneta", 
             "texto": "Escrever muito bem",
             "link": "https://canetaslegais.com",
             "quantidade": 1,
-            "preco": 50.5
+            "preco": 50.5,
         }
     )
-    
+    print("-" * 50)
     
 str.format
 msg = "Olá, %s você é o player n %03d e você tem %.2f pontos"
