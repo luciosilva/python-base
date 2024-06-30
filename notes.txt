@@ -2,3 +2,8 @@ Minha primeira nota	geral	Minah nota 1
 Minha segunda nota	tech	Pyhton é legal
 Minha terceira nota	tech	Java também é legal
 Minha terceira nota	teste	bbfeekhfdk dsjkfdjfdsplf ddsflfdsklp[3~
+Minha terceira Nota	tech	Golang
+Repetições	python	While e for para repetir
+Meu Post Legal	geral	Hello
+Estou Com Fome	comida	Batata
+Mais Fome Ainda	comida	Arroz

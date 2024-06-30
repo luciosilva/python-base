@@ -1,12 +1,7 @@
-mul,2,793 = 1586sum,2,793 = 795div,8,2 = 4.0div,8,2 = 4.0
-sum,8,2 = 10
-sum,4,2 = 6
-2024-06-25T23:43:25.163855 - sum,4,2 = 6
-2024-06-25T23:44:38.366880 - luciosilva - sum,4,2 = 6
-2024-06-29T17:57:01.463880 - luciosilva - sum,8.0,2.0 = 10
-2024-06-29T17:57:04.936524 - luciosilva - sum,8.0,1.0 = 9
-2024-06-29T17:57:07.057355 - luciosilva - sum,8.0,3.0 = 11
-2024-06-29T18:02:47.104004 - luciosilva - sum,8.0,2.2 = 0
-2024-06-29T18:03:08.908579 - luciosilva - sum,8.0,2.0 = 0
-2024-06-29T18:10:43.865386 - luciosilva - sum,8,2 = 10
-2024-06-29T18:10:48.964723 - luciosilva - sum,8,2.4 = 10.4
+2024-06-30 02:45:32,156 infixcalc.py ERROR l:159 f:infixcalc.py: msg: division by zero
+2024-06-30 02:45:33,693 infixcalc.py ERROR l:159 f:infixcalc.py: msg: division by zero
+2024-06-30T19:29:56.821320 - luciosilva - sum,45,2 = 47
+2024-06-30T19:34:00.374234 - luciosilva - sum,2,4 = 6
+2024-06-30T19:35:07.606139 - luciosilva - sum,3,78 = 81
+2024-06-30T19:35:44.502721 - luciosilva - sum,78,91 = 169
+2024-06-30T19:36:00.430871 - luciosilva - sum,1,3 = 4

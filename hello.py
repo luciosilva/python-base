@@ -176,5 +176,7 @@ print("Lúcio".upper())
 #Para dinheiro não usar float, usar decimal ou currency
 
 
-
+#TERNARIO
+#valor = "ok" if n1 > n2 else "nok"
+#print("ok" if n1 > n2 else "nok")
 

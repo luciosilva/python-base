@@ -35,16 +35,27 @@ import sys
 import os
 from datetime import datetime
 import logging
+from logging import handlers
 
-log_level = os.getenv("LOG_LEVEL", "WARING").upper()
-log = logging.Logger("logs.py", log_level)
-ch = logging.StreamHandler()
-ch.setLevel(log_level)
+log_level = os.getenv("LOG_LEVEL", "WARNING").upper()
+log = logging.Logger("infixcalc.py", log_level)
+
+#ch = logging.StreamHandler()
+#ch.setLevel(log_level)
+fh = handlers.RotatingFileHandler(
+    "infixcalc.log", 
+    maxBytes=10**6,
+    backupCount=10
+)
+fh.setLevel(log_level)
+
 fmt = logging.Formatter(
     '%(asctime)s %(name)s %(levelname)s l:%(lineno)d f:%(filename)s: %(message)s'
 )
-ch.setFormatter(fmt)
-log.addHandler(ch)
+#ch.setFormatter(fmt)
+#log.addHandler(ch)
+fh.setFormatter(fmt)
+log.addHandler(fh)
 
 
 """
@@ -93,76 +104,84 @@ if operation == "div":
     print(num1 / num2)
     
 """
+
+while True:
+    arguments = sys.argv[1:]
     
-arguments = sys.argv[1:]
-# Validação
-if not arguments:
-    operation = input("operação:")
-    n1 + input("n1:")
-    n2 + input("n2:")
-    arguments = [operation, n1, n2]
-elif len(arguments) != 3:
-    print("Número de argumentos inválidos")
-    print("ex: `sum 5 5`")
-    sys.exit(1)
-
-operation, *nums = arguments
-
-valid_operations = ("sum", "sub", "mul", "div")
-if operation not in valid_operations:
-    print("Operação inválida")
-    print(valid_operations)
-    sys.exit(1)
-
-validated_nums = []
-for num in nums:
-
-    if not num.replace(".","").isdigit():
-        print(f"Numero inválido {num}")
+    # Validação
+    if not arguments:
+        operation = input("operação:")
+        n1 = input("n1:")
+        n2 = input("n2:")
+        arguments = [operation, n1, n2]
+    elif len(arguments) != 3:
+        print("Número de argumentos inválidos")
+        print("ex: `sum 5 5`")
         sys.exit(1)
-    if "." in num:
-        num = float(num)
-    else:
-        num = int(num)
-    validated_nums.append(num)
 
-try:
-    n1, n2 = validated_nums
-except ValueError as e:
-    print(str(e))
-    sys.exit(1)    
+    operation, *nums = arguments
 
-if operation == "sum":
-    result = n1 + n2 
+    valid_operations = ("sum", "sub", "mul", "div")
+    if operation not in valid_operations:
+        print("Operação inválida")
+        print(valid_operations)
+        sys.exit(1)
 
-if operation == "sub":
-    result = n1 - n2
+    validated_nums = []
+    for num in nums:
 
-if operation == "mul":
-    result = n1 * n2
+        if not num.replace(".","").isdigit():
+            print(f"Numero inválido {num}")
+            sys.exit(1)
+        if "." in num:
+            num = float(num)
+        else:
+            num = int(num)
+        validated_nums.append(num)
 
-if operation == "div":
     try:
-        result = n1 / n2
-    except ZeroDivisionError as e:
+        n1, n2 = validated_nums
+    except ValueError as e:
         print(str(e))
+        sys.exit(1)    
+
+    if operation == "sum":
+        result = n1 + n2 
+
+    if operation == "sub":
+        result = n1 - n2
+
+    if operation == "mul":
+        result = n1 * n2
+
+    if operation == "div":
+        try:
+            result = n1 / n2
+        except ZeroDivisionError as e:
+            log.error(
+                "msg: %s",
+                str(e)
+            )
+            sys.exit(1)
+            
+
+    path = os.curdir
+    filepath = os.path.join(path, "infixcalc.log")
+    timestamp = datetime.now().isoformat()
+    user = os.getenv('USER', 'anonymous')
+
+    print(f"O resultado é {result}")
+
+    try:
+        with open(filepath, "a") as file_:
+            file_.write(f"{timestamp} - {user} - {operation},{n1},{n2} = {result}\n")
+    #    print(f"{operation},{n1},{n2} = {result}\n", file=open(filename, "a"))
+    except PermissionError as e:
+        log.error(
+            "msg: %s",
+            str(e)
+        )    
         sys.exit(1)
-        
-
-path = os.curdir
-filepath = os.path.join(path, "infixcalc.log")
-timestamp = datetime.now().isoformat()
-user = os.getenv('USER', 'anonymous')
-
-print(f"O resultado é {result}")
-
-try:
-    with open(filepath, "a") as file_:
-        file_.write(f"{timestamp} - {user} - {operation},{n1},{n2} = {result}\n")
-#    print(f"{operation},{n1},{n2} = {result}\n", file=open(filename, "a"))
-except PermissionError as e:
-    log.error(
-        "msg: %s",
-        str(e)
-    )    
-    sys.exit(1)
+    
+    if input("Pressione enter para continuar ou qualquer tecla para sair"):
+        break
