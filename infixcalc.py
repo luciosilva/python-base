@@ -34,7 +34,20 @@ __license__ = "Unlicense"
 import sys
 import os
 from datetime import datetime
+import logging
 
+log_level = os.getenv("LOG_LEVEL", "WARING").upper()
+log = logging.Logger("logs.py", log_level)
+ch = logging.StreamHandler()
+ch.setLevel(log_level)
+fmt = logging.Formatter(
+    '%(asctime)s %(name)s %(levelname)s l:%(lineno)d f:%(filename)s: %(message)s'
+)
+ch.setFormatter(fmt)
+log.addHandler(ch)
+
+
+"""
 arguments = {
     "oper": None,
     "num1": None,
@@ -79,10 +92,10 @@ if operation == "mul":
 if operation == "div":
     print(num1 / num2)
     
-    
+"""
     
 arguments = sys.argv[1:]
-# TODO: Exceptions
+# Validação
 if not arguments:
     operation = input("operação:")
     n1 + input("n1:")
@@ -103,7 +116,7 @@ if operation not in valid_operations:
 
 validated_nums = []
 for num in nums:
-# TODO: Exceptions    
+
     if not num.replace(".","").isdigit():
         print(f"Numero inválido {num}")
         sys.exit(1)
@@ -113,28 +126,43 @@ for num in nums:
         num = int(num)
     validated_nums.append(num)
 
-n1, n2 = validated_nums
+try:
+    n1, n2 = validated_nums
+except ValueError as e:
+    print(str(e))
+    sys.exit(1)    
 
-#TODO: Usar dict de funções
 if operation == "sum":
-    result = num1 + num2 
+    result = n1 + n2 
 
 if operation == "sub":
-    result = num1 - num2
+    result = n1 - n2
 
 if operation == "mul":
-    result = num1 * num2
+    result = n1 * n2
 
 if operation == "div":
-    result = num1 / num2
+    try:
+        result = n1 / n2
+    except ZeroDivisionError as e:
+        print(str(e))
+        sys.exit(1)
+        
 
 path = os.curdir
 filepath = os.path.join(path, "infixcalc.log")
 timestamp = datetime.now().isoformat()
 user = os.getenv('USER', 'anonymous')
 
-with open(filepath, "a") as file_:
-    file_.write(f"{timestamp} - {user} - {operation},{n1},{n2} = {result}\n")
-#    print(f"{operation},{n1},{n2} = {result}\n", file=open(filename, "a"))
+print(f"O resultado é {result}")
 
-print(result)
+try:
+    with open(filepath, "a") as file_:
+        file_.write(f"{timestamp} - {user} - {operation},{n1},{n2} = {result}\n")
+#    print(f"{operation},{n1},{n2} = {result}\n", file=open(filename, "a"))
+except PermissionError as e:
+    log.error(
+        "msg: %s",
+        str(e)
+    )    
+    sys.exit(1)

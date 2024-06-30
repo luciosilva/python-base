@@ -39,8 +39,13 @@ if arguments[0] == "read":
             print()
                             
 if arguments[0] == "new":
-    title = arguments[1] # TODO: Tratar exception
-
+    try:
+        title = arguments[1]
+    except KeyError as e:
+        print(str(e))
+        sys.exit(1)
+        
+        
     text = [
         f"{title}",
         input("tag:").strip(),
