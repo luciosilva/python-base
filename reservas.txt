@@ -1,0 +1,6 @@
+CLB,1,1
+Mister X,1,3
+Gaia,1,1
+Lombri,3,2
+Mestre,2,75
+Mister Luiz,4,56

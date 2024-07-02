@@ -86,8 +86,8 @@ path = Path("pasta") / Path("subpasta")
 
 (path / "outrapasta").mkdir()
 
-filepath = path("pasta") / "teste1.txt"
+filepath = Path("pasta") / "teste1.txt"
 
 filepath.write_text("Hello")
-
-
+filepath.open("w")
+filepath.read_text()

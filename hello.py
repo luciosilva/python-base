@@ -28,7 +28,7 @@ import os
 import sys
 import logging
 
-log_level = os.getenv("LOG_LEVEL", "WARING").upper()
+log_level = os.getenv("LOG_LEVEL", "WARNING").upper()
 log = logging.Logger("logs.py", log_level)
 ch = logging.StreamHandler()
 ch.setLevel(log_level)
@@ -40,143 +40,149 @@ log.addHandler(ch)
 
 
 
+while True:
+    arguments = {
+        "lang": None,
+        "count": 1,
+    }
+    for arg in sys.argv[1:]:
+    #    print(f"{args}")
+    #    print(args.split("="))
+        try:
+            key, value = arg.split("=")
+        except ValueError as e:
+            log.error(
+                "You need to use `=`, you passed %s, try --key=value: %s",
+                arg, str(e)
+            )
+            sys.exit(1)
+        
+        key = key.lstrip("-").strip()
+        value =  value.strip()
+        if key.lower() not in arguments:
+            print(f"Invalid Option `{key}`")
+            sys.exit()
+    #    print(key, value)
+        arguments[key.lower()] = value
 
-arguments = {
-    "lang": None,
-    "count": 1,
-}
-for arg in sys.argv[1:]:
-#    print(f"{args}")
-#    print(args.split("="))
+    # Este programa imprime Hello, World!
+    #if __name__ == "__main__":
+    #    print("Hello, World!")
+    #    print("Lúcio".upper())
+
+    current_language = arguments["lang"]
+    if current_language is None:
+        if "LANG" in os.environ:
+            current_language = os.getenv("LANG")
+        else: current_language = input("Choose a language:")
+        
+    current_language = current_language[:5]
+        
+        
+    #LANG=pt_BR ipython hello.py 
+    msg = {
+        "C.UTF": "Hello, World!", 
+        "en_US": "Hello, World!", 
+        "pt_BR": "Olá, mundo!",
+        "it_IT": "Ciao, mondo!",
+        "es_SP": "Hola, mundo!",
+        "fr_FR": "Bonjour monde!"
+        }
+
+    """
+    message - msg.get(current_language, msg["en_US"])
+    """
+
+    # EAFP
     try:
-        key, value = arg.split("=")
-    except ValueError as e:
+        message = msg[current_language]
+    except KeyError as e:
         log.error(
-            "You need to use `=`, you passed %s, try --key=value: %s",
-            arg, str(e)
+            "Language is invalid, choose from: %s",
+            list(msg.keys())
         )
         sys.exit(1)
-    
-    key, value = arg.split("=")
-    key = key.lstrip("-").strip()
-    value =  value.strip()
-    if key not in arguments:
-        print(f"Invalid Option `{key}`")
-        sys.exit()
-#    print(key, value)
-    arguments[key] = value
 
-# Este programa imprime Hello, World!
-#if __name__ == "__main__":
-#    print("Hello, World!")
-#    print("Lúcio".upper())
+    """
+    # LBYL
+    if current_language in msg:
+        message = msg[current_language]
+    else:
+        print(f"language is invalid, choose from: {list(msg.keys())}")
+        sys.exit(1)
+    """
 
-current_language = arguments["lang"]
-if current_language is None:
-    #TODO: Usar repetição
-    if "LANG" in os.environ:
-        current_language = os.getenv("LANG")
-    else: current_language = input("Choose a language:")
-    
-current_language = current_language[:5]
-    
-    
-#LANG=pt_BR ipython hello.py 
-msg = {
-    "C.UTF": "Hello, World!", 
-    "en_US": "Hello, World!", 
-    "pt_BR": "Olá, mundo!",
-    "it_IT": "Ciao, mondo!",
-    "es_SP": "Hola, mundo!",
-    "fr_FR": "Bonjour monde!"
-    }
 
-"""
-message - msg.get(current_language, msg["en_US"])
-"""
 
-# EAFP
-try:
-    message = msg[current_language]
-except KeyError as e:
-    log.error(
-        "Language is invalid, choose from: %s",
-        list(msg.keys())
+
+
+    print(
+        message * int(arguments["count"])
     )
-    sys.exit(1)
-
-"""
-# LBYL
-if current_language in msg:
-    message = msg[current_language]
-else:
-    print(f"language is invalid, choose from: {list(msg.keys())}")
-    sys.exit(1)
-"""
 
 
 
 
+    print("Lúcio".upper())
 
-print(
-    message * int(arguments["count"])
-)
+    #POSSO EXECUTAR ASSIM, passando a variável de ambiente
+    #LANG=it_IT python3 hello.py
 
+    #Usando ambientes virtuais
+    #É possivel criar uma cópia do:
 
+    #Mostra onde o python está instalado
+    #which python
 
+    #Mostra onde estão localizados os arquivos, pacotes e o interpretador python
+    #python3 -m site
 
-print("Lúcio".upper())
+    #Exclusiva para uma aplicação
 
-#POSSO EXECUTAR ASSIM, passando a variável de ambiente
-#LANG=it_IT python3 hello.py
+    #Como criar um ambiente virtual?
+    #python3 -m venv .venv
 
-#Usando ambientes virtuais
-#É possivel criar uma cópia do:
+    #Como ativar um ambiente virtual?
+    #source .venv/bin/activate
 
-#Mostra onde o python está instalado
-#which python
+    #python -m pip --help
+    #python -m pip install ipython
+    #python -m pip install --upgrade pip
+    #Novo interpretador, colorido, auto complete e help melhorado
+    #ipython
 
-#Mostra onde estão localizados os arquivos, pacotes e o interpretador python
-#python3 -m site
+    #Help - mostra todos os módulos
+    #import os
+    #Help - mostra o help do getenv
+    #os.getenv?
+    #Help - mostra o código do getenv
+    #os.getenv??
 
-#Exclusiva para uma aplicação
+    #Mostra o tempo para execução do print
+    #%time print("a")
 
-#Como criar um ambiente virtual?
-#python3 -m venv .venv
+    #TIPOS
+    #Retorna os binários
+    #bin()
+    #Endereço de memória
+    #id()
+    #Scalar types - Tipos primários
 
-#Como ativar um ambiente virtual?
-#source .venv/bin/activate
+    #Ver caracteristicas das classes
+    #dir(int)
 
-#python -m pip --help
-#python -m pip install ipython
-#python -m pip install --upgrade pip
-#Novo interpretador, colorido, auto complete e help melhorado
-#ipython
-
-#Help - mostra todos os módulos
-#import os
-#Help - mostra o help do getenv
-#os.getenv?
-#Help - mostra o código do getenv
-#os.getenv??
-
-#Mostra o tempo para execução do print
-#%time print("a")
-
-#TIPOS
-#Retorna os binários
-#bin()
-#Endereço de memória
-#id()
-#Scalar types - Tipos primários
-
-#Ver caracteristicas das classes
-#dir(int)
-
-#Para dinheiro não usar float, usar decimal ou currency
+    #Para dinheiro não usar float, usar decimal ou currency
 
 
-#TERNARIO
-#valor = "ok" if n1 > n2 else "nok"
-#print("ok" if n1 > n2 else "nok")
+    #TERNARIO
+    #valor = "ok" if n1 > n2 else "nok"
+    #print("ok" if n1 > n2 else "nok")
 
+    if input("Pressione enter para continuar ou qualquer tecla para sair"):
+        break
+    else:
+        novoTexto=input("Digite a linguagem: ")
+        sys.argv.clear()
+        sys.argv.append('hello.py')
+        sys.argv.append(novoTexto)
+        print(sys.argv)
